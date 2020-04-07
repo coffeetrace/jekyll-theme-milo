@@ -237,6 +237,7 @@ models:
       - type: string
         name: permalink
         label: Permalink
+        description: The permalink of the page.
   post:
     type: page
     label: Post
@@ -308,3 +309,6 @@ models:
       - type: boolean
         name: aside
         label: Aside
+      - type: string
+        name: permalink
+        label: Permalink
