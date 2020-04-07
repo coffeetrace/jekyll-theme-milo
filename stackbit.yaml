@@ -1,210 +1,310 @@
-stackbitVersion: "~0.2.0"
 ssgName: jekyll
+stackbitVersion: "^0.2.41"
 staticDir: ""
-uploadDir: images
-buildCommand: "gem install jekyll bundler && bundle install && bundle exec jekyll build"
-publishDir: "_site"
-dataDir: ""
+uploadDir: assets
 pagesDir: ""
+collections:
+  - label: Home
+    source: pages
+    create: true
+    models: ["home"]
+  - label: Pages
+    source: pages
+    create: true
+    models: ["page"]
+  - label: Posts
+    source: pages
+    create: true
+    models: ["post"]
 models:
   config:
-    type: data
+    type: config
     label: Config
-    file: _config.yml
     fields:
-      - type: color
-        name: accent_color
-        label: Accent Color
-        description: The accent color of the theme.
-        required: true
       - type: string
-        name: lang
-        label: Site Language
-        description: The language of the site used in HTML lang attribute.
+        name: theme
+        label: Theme
+        hidden: true
       - type: string
         name: title
         label: Site Title
-        description: The title displayed in the site header, title tag, search-engine results.
-      - type: string
-        name: description
-        label: Description
-        description: The default description displayed in meta tags, search-engine results.
+      - type: image
+        name: logo
+        label: Site Logo
       - type: string
         name: baseurl
-        label: Baseurl
-        description: The subpath of your site, e.g. /blog, for generating urls.
-      - type: string
-        name: url
-        label: Url
-        description: The base hostname and protocol of your site for where absolute urls are needed.
+        label: Base URL
+        description: Serve the website from the given base URL
+        hidden: true
       - type: string
         name: permalink
         label: Permalink
-        description: The permalink pattern.
-      - type: image
-        name: favicon
-        label: Favicon
-        description: The icon image associated with your website.
-      - type: string
-        name: disqus
-        label: Disqus Username
-        description: The shortname for your Disqus site to enable comments.
+        description: The output path for your pages, posts, or collections.
+        default: /posts/:slug:output_ext
+        hidden: true
+      - type: object
+        name: collections
+        label: collections
+        fields:
+          - type: object
+            name: posts
+            label: posts
+            fields:
+              - type: string
+                name: title
+                label: Collection Title
+              - type: boolean
+                name: output
+                label: Output
+              - type: string
+                name: description
+                label: Collection Description
+              - type: markdown
+                name: feature_text
+                label: Collection Feature Text
+              - type: image
+                name: feature_image
+                label: Collection Feature Image
       - type: list
-        name: navigation
+        name: navigation_header
         label: Header Navigation
         items:
           type: object
-          labelField: text
+          labelField: title
           fields:
             - type: string
-              name: text
-              label: Title
+              name: title
+              label: Button title
               required: true
             - type: string
               name: url
               label: URL
+              widget: url
+      - type: list
+        name: navigation_footer
+        label: Footer Navigation
+        items:
+          type: object
+          labelField: title
+          fields:
+            - type: string
+              name: title
+              label: Button title
               required: true
-        - type: list
-          name: plugins
-          label: Plugins
-          items:
-            type: string
-author:
-  type: data
-  file: "_data/author.json"
-  label: Author
-  fields:
-    - type: string
-      name: name
-      label: Name
-      description: The name of the author.
-    - type: markdown
-      name: bio
-      label: Bio
-      description: The short bio of the author.
-    - type: string
-      name: url
-      label: URL
-      description: The URL of the author.
-    - type: string
-      name: location
-      label: Location
-      description: The location of the author.
-    - type: image
-      name: image
-      label: Avatar
-      description: The profile image of the author.
-social:
-  type: data
-  file: "_data/social.json"
-  label: Social Links
-  fields:
-    - type: list
-      name: links
-      label: Link
-      description: A list of social links displayed in the footer.
-      items:
-        type: object
-        labelField: title
+            - type: string
+              name: url
+              label: URL
+              widget: url
+      - type: string
+        name: email
+        label: Site Email
+      - type: object
+        name: social_links
+        label: Social Links
+        description: Leave empty to hide
         fields:
           - type: string
-            name: title
-            label: Title
-            description: The title of the icon.
+            name: Twitter
+            label: Twitter
           - type: string
-            name: icon
-            label: Icon
-            description: Font Awesome icon class name.
-            required: true
+            name: LinkedIn
+            label: LinkedIn
           - type: string
-            name: url
-            label: URL
-            description: The URL to your social profile.
-            widget: url
-post:
-  type: page
-  label: Post
-  template: post
-  folder: _posts
-  fields:
-    - name: title
-      type: string
-      label: Title
-      description: The title of the post
-      required: true
-    - name: description
-      type: string
-      label: Description
-      description: The description used in meta tags.
-    - name: date
-      type: date
-      label: Date
-      description: The publish date of the post.
-      required: true
-    - name: feature_image
-      type: image
-      label: Feature image
-      description: The featured image of the post.
-    - name: tags
-      type: list
-      label: Tags
-      items:
-        type: string
-page:
-  type: page
-  label: Page
-  template: page
-  fields:
-    - type: string
-      name: title
-      label: Title
-      description: The title of the page.
-      required: true
-    - type: string
-      name: description
-      label: Description
-      description: The description used in meta tags.
-    - name: feature_image
-      type: image
-      label: Feature image
-      description: The featured image of the page.
-tags:
-  type: page
-  label: Tags Page
-  template: tags
-  file: tags.md
-  hideContent: true
-  singleInstance: true
-  fields:
-    - type: string
-      name: title
-      label: Title
-      required: true
-    - type: string
-      name: description
-      label: Description
-      description: The description used in meta tags.
-notfound:
-  type: page
-  label: 404 Page
-  singleInstance: true
-  file: 404.md
-  template: page
-  fields:
-    - type: string
-      name: title
-      label: Title
-      description: The title of the page.
-      required: true
-    - type: string
-      name: description
-      label: Description
-      description: The description used in meta tags.
-    - name: feature_image
-      type: image
-      label: Feature image
-      description: The featured image of the page.
-    - type: string
-      name: permalink
-      label: Permalink
-      description: The permalink of the page.
+            name: Googleplus
+            label: Google+
+          - type: string
+            name: GitHub
+            label: GitHub
+          - type: string
+            name: link
+            label: link
+          - type: string
+            name: RSS
+            label: RSS
+      - type: object
+        name: sharing_links
+        label: Sharing Links
+        description: Leave empty to hide
+        fields:
+          - type: enum
+            name: Twitter
+            label: Twitter
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#0d94e7" }
+          - type: enum
+            name: facebook
+            label: facebook
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#3B5998" }
+          - type: enum
+            name: Googleplus
+            label: Google+
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#DC4E41" }
+          - type: enum
+            name: Pinterest
+            label: Pinterest
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#BD081C" }
+          - type: enum
+            name: LinkedIn
+            label: LinkedIn
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#0077B5" }
+          - type: enum
+            name: tumblr
+            label: tumblr
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#36465D" }
+          - type: enum
+            name: Reddit
+            label: Reddit
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#FF4500" }
+          - type: enum
+            name: HackerNews
+            label: Hacker News
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#ff6600" }
+          - type: enum
+            name: DesignerNews
+            label: Designer News
+            options:
+              - { label: "Disabled", value: "" }
+              - { label: "Enabled", value: "#2D72D9" }
+          - type: boolean
+            name: Email
+            label: Email
+  home:
+    type: page
+    label: Home
+    layout: page
+    file: index.md
+    singleInstance: true
+    fields:
+      - type: string
+        name: title
+        label: Page Title
+        required: true
+      - type: markdown
+        name: feature_text
+        label: Feature text
+      - type: image
+        name: feature_image
+        label: Feature image
+      - type: string
+        name: excerpt
+        label: Excerpt
+      - type: boolean
+        name: aside
+        label: Aside
+  page:
+    type: page
+    label: Page
+    layout: page
+    exclude: "{index.md,categories.md,_posts/**}"
+    fields:
+      - type: string
+        name: title
+        label: Page Title
+        required: true
+      - type: markdown
+        name: feature_text
+        label: Feature text
+      - type: image
+        name: feature_image
+        label: Feature image
+      - type: string
+        name: excerpt
+        label: Excerpt
+      - type: boolean
+        name: aside
+        label: Aside
+      - type: boolean
+        name: indexing
+        label: Indexing
+      - type: boolean
+        name: sitemap
+        label: Sitemap
+      - type: string
+        name: permalink
+        label: Permalink
+  post:
+    type: page
+    label: Post
+    layout: post
+    folder: _posts
+    fields:
+      - type: string
+        name: title
+        label: Page Title
+        required: true
+      - type: markdown
+        name: feature_text
+        label: Feature text
+      - type: image
+        name: feature_image
+        label: Feature image
+      - type: string
+        name: excerpt
+        label: Excerpt
+      - type: image
+        name: image
+        label: Image
+      - type: boolean
+        name: comments
+        label: Enable Comments
+        default: true
+      - type: boolean
+        name: aside
+        label: Aside
+      - type: list
+        name: categories
+        label: Categories
+        items:
+          type: string
+      - type: boolean
+        name: indexing
+        label: Indexing
+  blog:
+    type: page
+    label: Blog
+    layout: blog
+    singleInstance: true
+    file: blog/index.html
+    fields:
+      - type: string
+        name: title
+        label: Page Title
+        required: true
+      - type: boolean
+        name: aside
+        label: Aside
+      - type: string
+        name: collectionpage
+        label: Collection page
+  categories:
+    type: page
+    label: Categories Page
+    layout: categories
+    singleInstance: true
+    file: categories.md
+    fields:
+      - type: string
+        name: title
+        label: Page Title
+        required: true
+      - type: string
+        name: excerpt
+        label: Excerpt
+      - type: boolean
+        name: aside
+        label: Aside

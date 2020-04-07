@@ -1,18 +1,23 @@
 title: "Milo"
 
-about: "Bootstrap theme for jekyll"
-markdown: kramdown
+description: "Bootstrap theme for jekyll"
+# markdown: kramdown
 url: ""
 baseurl: "/jekyll-theme-milo"
-disqus_short_name: disqus-demo-page
 
-plugins: 
+# The shortname for your Disqus site to enable comments.
+disqus: anistark
+
+# Colors
+accent_color: "#2d72d9"
+
+plugins:
   - jekyll-paginate
   - jemoji
-  
-paginate_path: "/page:num/"
 
+# http://jekyllrb.com/docs/pagination/
 paginate: 5
+paginate_path: "/page:num/"
 
 main_toc:
   - title: Home
@@ -23,8 +28,7 @@ main_toc:
     url: "author"
 
 defaults:
-  -
-    scope:
+  - scope:
       path: "_posts"
     values:
       layout: "post"
